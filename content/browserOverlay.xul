@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://classylocator/skin/browserOverlay.css" ?>
+
+<!DOCTYPE overlay SYSTEM "chrome://classylocator/locale/browserOverlay.dtd">
+
+<overlay id="classylocator-browser-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" src="chrome://classylocator/content/browserOverlay.js" />
+
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="classylocator-string-bundle" src="chrome://classylocator/locale/browserOverlay.properties" />
+  </stringbundleset>
+
+  <menubar id="main-menubar">
+    <menu id="classylocator-hello-menu"
+          label="&classylocator.hello.label;"
+          accesskey="&classylocator.helloMenu.accesskey;"
+          insertafter="helpMenu">
+      <menupopup>
+        <menuitem id="classylocator-hello-menu-item"
+                  label="&classylocator.hello.label;"
+                  accesskey="&classylocator.helloItem.accesskey;"
+                  oncommand="GanymedeOrg.BrowserOverlay.sayHello(event);" />
+      </menupopup>
+    </menu>
+  </menubar>
+
+  <vbox id="appmenuSecondaryPane">
+    <menu id="classylocator-hello-menu-2" 
+          label="&classylocator.hello.label;"
+          accesskey="&classylocator.helloMenu.accesskey;"
+          insertafter="appmenu_addons">
+      <menupopup>
+        <menuitem id="classylocator-hello-menu-item-2"
+                  label="&classylocator.hello.label;"
+                  accesskey="&classylocator.helloItem.accesskey;"
+                  oncommand="GanymedeOrg.BrowserOverlay.sayHello(event);" />
+      </menupopup>
+    </menu>
+  </vbox>
+</overlay>
