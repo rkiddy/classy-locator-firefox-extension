@@ -13,31 +13,16 @@
     <stringbundle id="classylocator-string-bundle" src="chrome://classylocator/locale/browserOverlay.properties" />
   </stringbundleset>
 
-  <menubar id="main-menubar">
-    <menu id="classylocator-hello-menu"
-          label="&classylocator.hello.label;"
+  <menupopup id="menu_ToolsPopup">
+    <menu id="classylocator-hello-menu" label="&classylocator.hello.label;"
           accesskey="&classylocator.helloMenu.accesskey;"
-          insertafter="helpMenu">
+          insertafter="javascriptConsole,devToolsSeparator">
       <menupopup>
         <menuitem id="classylocator-hello-menu-item"
                   label="&classylocator.hello.label;"
                   accesskey="&classylocator.helloItem.accesskey;"
-                  oncommand="GanymedeOrg.BrowserOverlay.sayHello(event);" />
+                  oncommand="GanymedeOrg.BrowserOverlay.findClassLabels(event);" />
       </menupopup>
     </menu>
-  </menubar>
-
-  <vbox id="appmenuSecondaryPane">
-    <menu id="classylocator-hello-menu-2" 
-          label="&classylocator.hello.label;"
-          accesskey="&classylocator.helloMenu.accesskey;"
-          insertafter="appmenu_addons">
-      <menupopup>
-        <menuitem id="classylocator-hello-menu-item-2"
-                  label="&classylocator.hello.label;"
-                  accesskey="&classylocator.helloItem.accesskey;"
-                  oncommand="GanymedeOrg.BrowserOverlay.sayHello(event);" />
-      </menupopup>
-    </menu>
-  </vbox>
+  </menupopup>
 </overlay>

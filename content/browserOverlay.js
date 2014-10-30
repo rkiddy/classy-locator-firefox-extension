@@ -13,7 +13,7 @@ GanymedeOrg.BrowserOverlay = {
   /**
    * Says 'Hello' to the user.
    */
-  sayHello : function(aEvent) {
+  findClassLabels : function(aEvent) {
 
     let stringBundle = document.getElementById("classylocator-string-bundle");
     let message = stringBundle.getString("classylocator.greeting.label");
