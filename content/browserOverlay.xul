@@ -14,14 +14,15 @@
   </stringbundleset>
 
   <menupopup id="menu_ToolsPopup">
-    <menu id="classylocator-hello-menu" label="&classylocator.hello.label;"
-          accesskey="&classylocator.helloMenu.accesskey;"
+    <menu id="classylocator-locator-menu" label="&classylocator.locator.label;"
           insertafter="javascriptConsole,devToolsSeparator">
       <menupopup>
-        <menuitem id="classylocator-hello-menu-item"
-                  label="&classylocator.hello.label;"
-                  accesskey="&classylocator.helloItem.accesskey;"
-                  oncommand="GanymedeOrg.BrowserOverlay.findClassLabels(event);" />
+        <menuitem id="classylocator-start-menu-item"
+                  label="&classylocator.locator.startLabel;"
+                  oncommand="GanymedeOrg.BrowserOverlay.startRecording(event);" />
+        <menuitem id="classylocator-stop-menu-item"
+                  label="&classylocator.locator.stopLabel;"
+                  oncommand="GanymedeOrg.BrowserOverlay.stopRecording(event);" />
       </menupopup>
     </menu>
   </menupopup>
