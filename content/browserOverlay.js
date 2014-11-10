@@ -44,7 +44,7 @@ GanymedeOrg.BrowserOverlay = {
 
     file = null;
 
-    //window.removeEventListener('load', findClassLabels, false);
+    window.removeEventListener('load', findClassLabels, false);
 
     window.alert("stopping...");
   },
@@ -53,7 +53,6 @@ GanymedeOrg.BrowserOverlay = {
 
     oStream.write("ok\n", 3);
 
-/*
     let doc = event.originalTarget;
 
     // Make sure the doc is not in a frame, is top doc.
@@ -68,7 +67,7 @@ GanymedeOrg.BrowserOverlay = {
     var text = "At " + Date() + ", Page = " + doc.title + "\n";
 
     oStream.write(text, text.length);
-*/
+
     window.alert("page!");
   }
 };
