@@ -23,7 +23,7 @@ GanymedeOrg.BrowserOverlay = {
 
       oStream.write(msg, msg.length);
 
-      //window.addEventListener('load', findClassLabels, false);
+      gBrowser.addEventListener("load", this.findClassLabels, true);
 
       window.alert("starting...");
 
@@ -44,18 +44,23 @@ GanymedeOrg.BrowserOverlay = {
 
     file = null;
 
-    window.removeEventListener('load', findClassLabels, false);
+    gBrowser.removeEventListener("load", this.findClassLabels, true);
 
     window.alert("stopping...");
   },
 
+  logg : function(str) {
+    oStream.write(str, str.legnth);
+  },
+
   findClassLabels : function(anEvent) {
 
-    oStream.write("ok\n", 3);
-
-    let doc = event.originalTarget;
+    var doc = window.document;
 
     // Make sure the doc is not in a frame, is top doc.
+    //     Not sure if this is necessary, and it did not make any difference.
+    //
+    /*
     if (doc instanceof HTMLDocument) {
       if (doc.defaultView.frameElement) {
         while (doc.defaultView.frameElement) {
@@ -63,11 +68,23 @@ GanymedeOrg.BrowserOverlay = {
         }
       }
     }
+    */
 
-    var text = "At " + Date() + ", Page = " + doc.title + "\n";
+    var text = "// At " + Date() + ", Page = " + doc.title + "\n";
 
     oStream.write(text, text.length);
 
-    window.alert("page!");
+    var tags = doc.getElementsByTagName("*");
+
+    for (var idx = 0; idx < tags.length; idx++) {
+
+        var tag = tags[idx];
+
+        var str = "tag: '" + tag.tagName + "' -> class: '" + tag.className + "'\n";
+
+        oStream.write(str, str.length);
+    }
+
+    oStream.write("\nDONE\n\n", 7);
   }
 };
