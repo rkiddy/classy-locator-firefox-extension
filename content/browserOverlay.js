@@ -13,10 +13,13 @@ GanymedeOrg.BrowserOverlay = {
 
     if (file == null) {
 
-      file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", Components.interfaces.nsIFile);
+      file = Components.classes["@mozilla.org/file/directory_service;1"].
+                 getService(Components.interfaces.nsIProperties).
+                 get("TmpD", Components.interfaces.nsIFile);
       file.append("test.txt");
 
-      oStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+      oStream = Components.classes["@mozilla.org/network/file-output-stream;1"].
+                 createInstance(Components.interfaces.nsIFileOutputStream);
       oStream.init(file, 0x04 | 0x08 | 0x10, 0644, 0);
 
       var msg = "\nStart of recoding: " + Date() + " *******\n\n";
@@ -55,7 +58,7 @@ GanymedeOrg.BrowserOverlay = {
 
   findClassLabels : function(anEvent) {
 
-    var doc = window.document;
+    var doc = window.gBrowser.contentWindow.document;
 
     // Make sure the doc is not in a frame, is top doc.
     //     Not sure if this is necessary, and it did not make any difference.
