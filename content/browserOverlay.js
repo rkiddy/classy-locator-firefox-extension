@@ -26,7 +26,9 @@ GanymedeOrg.BrowserOverlay = {
 
       oStream.write(msg, msg.length);
 
-      gBrowser.addEventListener("load", this.findClassLabels, true);
+      gBrowser.addEventListener("load", this.findClassLabelsInPage, true);
+      // gBrowser.addEventListener("onclick", this.findClassLabelsInClick, true);
+      // gBrowser.addEventListener("onchange", this.findClassLabelsInChanged, true);
 
       window.alert("starting...");
 
@@ -47,7 +49,9 @@ GanymedeOrg.BrowserOverlay = {
 
     file = null;
 
-    gBrowser.removeEventListener("load", this.findClassLabels, true);
+    gBrowser.removeEventListener("load", this.findClassLabelsInPage, true);
+    // gBrowser.removeEventListener("onclick", this.findClassLabelsInClick, true);
+    // gBrowser.removeEventListener("onchange", this.findClassLabelsInChanged, true);
 
     window.alert("stopping...");
   },
@@ -56,24 +60,53 @@ GanymedeOrg.BrowserOverlay = {
     oStream.write(str, str.legnth);
   },
 
-  findClassLabels : function(anEvent) {
+  classMatches : function(aString) {
+      var aMatch = 1;
+      var next = aString;
+      if (next === '') return 0;
+      while (aMatch > 0 && next !== '') {
+          if (next.search(/^[A-Z][a-z]+/) == 0) {
+              next = next.replace(/^[A-Z][a-z]+/, "");
+          } else {
+              aMatch = 0;
+          }
+      }
+      return aMatch;
+  },
+
+  findClassLabelsInClick  : function(anEvent) {
+
+      // oStream.write("click\n", 6);
+      var button = anEvent.currentTarget;
+
+      var txt = "  // onclick: target = " + button + "\n";
+      oStream.write(txt, txt.length);
+
+      var classNames = button.className.split(" ");
+
+      for (var jdx = 0; jdx < classNames.length; jdx++) {
+          var aMatch = 1;
+          var next = classNames[jdx];
+          if (next === '') aMatch = 0;
+          while (aMatch > 0 && next !== '') {
+              if (next.search(/^[A-Z][a-z]+/) == 0) {
+                  next = next.replace(/^[A-Z][a-z]+/, "");
+              } else {
+                  aMatch = 0;
+              }
+          }
+          if (aMatch > 0) {
+              var txt = "  findAndClick(\"" + classNames[jdx] + "\");\n";
+              oStream.write(txt, txt.length);
+          }
+      }
+  },
+
+  findClassLabelsInPage : function(anEvent) {
 
     var doc = window.gBrowser.contentWindow.document;
 
-    // Make sure the doc is not in a frame, is top doc.
-    //     Not sure if this is necessary, and it did not make any difference.
-    //
-    /*
-    if (doc instanceof HTMLDocument) {
-      if (doc.defaultView.frameElement) {
-        while (doc.defaultView.frameElement) {
-          doc = doc.defaultView.frameElement.ownerDocument;
-        }
-      }
-    }
-    */
-
-    var text = "// At " + Date() + ", Page = " + doc.title + "\n";
+    var text = "  // Page = '" + doc.title + "' At " + Date() + "\n";
 
     oStream.write(text, text.length);
 
@@ -83,11 +116,69 @@ GanymedeOrg.BrowserOverlay = {
 
         var tag = tags[idx];
 
-        var str = "tag: '" + tag.tagName + "' -> class: '" + tag.className + "'\n";
+        //var str = " // tag: '" + tag.tagName + "' -> class: '" + tag.className + "'\n";
+        //oStream.write(str, str.length);
 
-        oStream.write(str, str.length);
+        // First check the className attribute of the elements and record them if desired.
+        //
+        var classNames = tag.className.split(" ");
+
+        for (var jdx = 0; jdx < classNames.length; jdx++) {
+            var aMatch = 1;
+            var next = classNames[jdx];
+            if (next === '') aMatch = 0;
+            while (aMatch > 0 && next !== '') {
+                if (next.search(/^[A-Z][a-z]+/) == 0) {
+                    next = next.replace(/^[A-Z][a-z]+/, "");
+                } else {
+                    aMatch = 0;
+                }
+            }
+            if (aMatch > 0) {
+                var txt = "  waitFor(\"" + classNames[jdx] + "\");\n";
+                oStream.write(txt, txt.length);
+            }
+        }
+
+        // Now I will add the button listeners I need. Is there a more general way to do this?
+
+        //var txt = "checking tag '" + tag.tagName + "' and type '" + tag.getAttribute("type") + "'\n";
+        //oStream.write(txt, txt.length);
+
+        if (tag.tagName.toLowerCase() == 'input' && tag.hasAttribute('type') && tag.getAttribute('type').toLowerCase() == 'submit') {
+            //oStream.write("button\n", 7);
+            tag.onclick = this.findClassLabelsInClick;
+        }
     }
 
-    oStream.write("\nDONE\n\n", 7);
+    var txt = "\n// DONE\n\n";
+    oStream.write(txt, txt.length);
+  },
+
+  findClassLabelsInChanged : function(anEvent) {
+
+      var target = anEvent.currentTarget;
+
+      var txt = "  // onclick: target = " + target + "\n";
+      oStream.write(txt, txt.length);
+
+      var classNames = target.className.split(" ");
+
+      for (var jdx = 0; jdx < classNames.length; jdx++) {
+          var aMatch = 1;
+          var next = classNames[jdx];
+          if (next === '') aMatch = 0;
+          while (aMatch > 0 && next !== '') {
+              if (next.search(/^[A-Z][a-z]+/) == 0) {
+                  next = next.replace(/^[A-Z][a-z]+/, "");
+              } else {
+                  aMatch = 0;
+              }
+          }
+          if (aMatch > 0) {
+              var txt = "  findAndSelect(\"" + classNames[jdx] + "\");\n";
+              oStream.write(txt, txt.length);
+          }
+      }
   }
 };
